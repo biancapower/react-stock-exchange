@@ -7,3 +7,6 @@ const api = axios.create({
 export function loadQuoteForStock(symbol) {
   return api.get(`/stock/${symbol}/quote`).then(res => res.data);
 }
+
+// new function here to add logo
+// will need to do something re export
