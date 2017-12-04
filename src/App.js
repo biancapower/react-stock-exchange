@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
 import './App.css';
 import StockInfo from './components/StockInfo';
+import StockInfoError from './components/StockInfoError';
 import { loadQuoteForStock } from './api/iex';
 
 
 class App extends Component {
   state = {
-    symbol: 'F',
+    symbol: 'MNKD',
     quote: null
   }
 
@@ -17,11 +18,11 @@ class App extends Component {
   loadQuote() {
     loadQuoteForStock(this.state.symbol)
       .then((quote) => {
-        this.setState({ quote: quote })
+        this.setState({ quote: quote, error: null })
       })
       .catch((err) => {
         this.setState({
-          error: err
+          error: err.message
         })
         // console.log(err)
       })
@@ -38,7 +39,6 @@ class App extends Component {
   }
 
   handleButtonClick = (event) => {
-    // console.log(event.target);
     this.loadQuote();
   }
 
@@ -52,6 +52,7 @@ class App extends Component {
           onChange={ this.handleSymbolChange }
         />
         <button onClick={ this.handleButtonClick }>Get Quote</button>
+        <StockInfoError err={this.state.error}  />
         <StockInfo {...this.state.quote}/>
       </div>
     );
