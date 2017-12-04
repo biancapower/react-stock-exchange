@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import './App.css';
 import StockInfo from './components/StockInfo';
 import StockInfoError from './components/StockInfoError';
-import { loadQuoteForStock } from './api/iex';
+import { loadQuoteForStock, loadLogoForStock } from './api/iex';
 
 
 class App extends Component {
@@ -27,6 +27,10 @@ class App extends Component {
         // console.log(err)
       })
 
+    loadLogoForStock(this.state.symbol)
+      .then((logo) => {
+        this.setState({ logoURL: logo.url })
+      })
   }
 
   handleSymbolChange = (event) => {
@@ -52,6 +56,8 @@ class App extends Component {
           onChange={ this.handleSymbolChange }
         />
         <button onClick={ this.handleButtonClick }>Get Quote</button>
+        <br/>
+        <img src={this.state.logoURL} alt={this.state.symbol}></img>
         <StockInfoError err={this.state.error}  />
         <StockInfo {...this.state.quote}/>
       </div>

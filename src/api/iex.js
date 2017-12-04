@@ -8,5 +8,6 @@ export function loadQuoteForStock(symbol) {
   return api.get(`/stock/${symbol}/quote`).then(res => res.data);
 }
 
-// new function here to add logo
-// will need to do something re export
+export function loadLogoForStock(symbol) {
+  return api.get(`/stock/${symbol}/logo`).then(res => res.data);
+}
