@@ -1,18 +1,31 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
 import './App.css';
+import StockInfo from './components/StockInfo';
+import { loadQuoteForStock } from './api/iex';
+
 
 class App extends Component {
+  state = {
+    quote: null
+  }
+
+  componentDidMount() {
+    this.loadQuote()
+  }
+
+  loadQuote() {
+    loadQuoteForStock('F')
+      .then((quote) => {
+        this.setState({ quote: quote })
+      })
+      .catch((err) => { console.log(err) })
+
+  }
+
   render() {
     return (
       <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Welcome to React</h1>
-        </header>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
+        <StockInfo {...this.state.quote}/>
       </div>
     );
   }
